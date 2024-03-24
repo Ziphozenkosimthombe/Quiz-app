@@ -1,11 +1,12 @@
 {
   "compilerOptions": {
     "target": "es2017", 
-    "module": "commonjs",                                
+    "module": "commonjs",                           
     "rootDir": "backend", 
     "outDir": "./dist",
     "esModuleInterop": true,
     "lib": ["esnext"],
     "sourceMap": true
-  }
+  },
+  "include": ["backend/**/*"],
 }

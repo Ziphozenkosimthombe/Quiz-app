@@ -1,9 +1,9 @@
-import User from "../models/User.models";
+import {createUser, getUserByUsername} from "../models/User.models";
 import bcrypt from 'bcryptjs';
 import generateTokenAndSetCookie from "../utils/generateToken";
+import express from 'express';
 
-
-export const signup = async (req, res) =>{
+export const signup = async (req: express.Request, res: express.Response) =>{
     try {
         const {fullName, username, password, confirmPassword} = req.body;
         if(!fullName || !username || !password || !confirmPassword){
@@ -19,7 +19,7 @@ export const signup = async (req, res) =>{
         }
 
 
-        const user = await User.findOne({username: { $regex: new RegExp(username, 'i')}});
+        const user = await getUserByUsername(username);
 
         if (user){
             return res.status(400).json({message: 'User already exist'})
@@ -30,7 +30,7 @@ export const signup = async (req, res) =>{
         const hashedPassword = await bcrypt.hash(password, salt);
         
     
-        const newUser = new User({
+        const newUser = await createUser({
             fullName,
             username,
             password: hashedPassword,
@@ -39,7 +39,6 @@ export const signup = async (req, res) =>{
 
         if(newUser){
             generateTokenAndSetCookie(newUser._id, res);
-            await newUser.save();
 
             res.status(200).json({
                 _id: newUser._id,
@@ -58,10 +57,10 @@ export const signup = async (req, res) =>{
 };
 
 
-export const login = async (req, res) =>{
+export const login = async (req: express.Request, res: express.Response) =>{
     try{
         const {username, password} = req.body;
-        const user = await User.findOne({username});
+        const user = await getUserByUsername(username);
         const isPasswordCorrect = await bcrypt.compare(password, user?.password || "");
 
         if (!username || !password){
@@ -86,7 +85,7 @@ export const login = async (req, res) =>{
 }
 
 
-export const logout = async (req, res) =>{
+export const logout = async (req: express.Request, res: express.Response) =>{
     try{
         res.cookie('jwt', '', {maxAge: 0});
         return res.status(200).json({message: 'Logout successful'})
