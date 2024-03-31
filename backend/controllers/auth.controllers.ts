@@ -3,95 +3,106 @@ import bcrypt from 'bcryptjs';
 import generateTokenAndSetCookie from "../utils/generateToken";
 import express from 'express';
 
-export const signup = async (req: express.Request, res: express.Response) =>{
-    try {
-        const {fullName, username, password, confirmPassword} = req.body;
-        if(!fullName || !username || !password || !confirmPassword){
-            return res.status(400).json({message: 'All fields are required'})
-        }
 
-        if (password.length < 8){
-            return res.status(400).json({message: 'Password must be at least 8 characters'})
-        }
-
-        if (password !== confirmPassword){
-            return res.status(400).json({message: 'Password do not match'})
-        }
-
-
-        const user = await getUserByUsername(username);
-
-        if (user){
-            return res.status(400).json({message: 'User already exist'})
-        }
-        
-        //HASH password
-        const salt = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash(password, salt);
-        
+export class SignupAuthController{
+    static async signup(req: express.Request, res: express.Response){
+        try {
+            const {fullName, username, password, confirmPassword} = req.body;
+            if(!fullName || !username || !password || !confirmPassword){
+                return res.status(400).json({message: 'All fields are required'})
+            }
     
-        const newUser = await createUser({
-            fullName,
-            username,
-            password: hashedPassword,
-            confirmPassword: hashedPassword
-        });
-
-        if(newUser){
-            generateTokenAndSetCookie(newUser._id, res);
-
-            res.status(200).json({
-                _id: newUser._id,
-                fullName: newUser.fullName,
-                username: newUser.username,
-            })
-
-        }else{
-            return res.status(400).json({message: 'Invalid credentials'})
-        }
-
-    }catch (err){
-        console.error(err.message);
-        res.status(500).send('Server Error')
-    }
-};
-
-
-export const login = async (req: express.Request, res: express.Response) =>{
-    try{
-        const {username, password} = req.body;
-        const user = await getUserByUsername(username);
-        const isPasswordCorrect = await bcrypt.compare(password, user?.password || "");
-
-        if (!username || !password){
-            return res.status(400).json({message: 'All fields are required'})
-        }
-      
-        if (!user || !isPasswordCorrect){
-            return res.status(400).json({message: 'Invalid username or password'})
-        }
-
-        generateTokenAndSetCookie(user._id, res);
-        return res.status(200).json({
-            _id: user._id,
-            fullName: user.fullName,
-            username: user.username,
-        })
+            if (password.length < 8){
+                return res.status(400).json({message: 'Password must be at least 8 characters'})
+            }
+    
+            if (password !== confirmPassword){
+                return res.status(400).json({message: 'Password do not match'})
+            }
+    
+    
+            const user = await getUserByUsername(username);
+    
+            if (user){
+                return res.status(400).json({message: 'User already exist'})
+            }
+            
+            //HASH password
+            const salt = await bcrypt.genSalt(10);
+            const hashedPassword = await bcrypt.hash(password, salt);
         
-    }catch (err){
-        console.error(`Error in the login controller: ${err.message}`);
-        res.status(500).send('Server Error')
+            const newUser = await createUser({
+                fullName,
+                username,
+                password: hashedPassword,
+                confirmPassword: hashedPassword
+            });
+    
+            if(newUser){
+                generateTokenAndSetCookie(newUser._id, res);
+    
+                res.status(200).json({
+                    _id: newUser._id,
+                    fullName: newUser.fullName,
+                    username: newUser.username,
+                })
+    
+            }else{
+                return res.status(400).json({message: 'Invalid credentials'})
+            }
+    
+        }catch (err){
+            console.error(err.message);
+            res.status(500).send('Server Error')
+        }
+    
     }
 }
 
 
-export const logout = async (req: express.Request, res: express.Response) =>{
-    try{
-        res.cookie('jwt', '', {maxAge: 0});
-        return res.status(200).json({message: 'Logout successful'})
+
+
+export class LoginAuthController{
+    static async login(req: express.Request, res: express.Response){
+        try{
+            const {username, password} = req.body;
+            const user = await getUserByUsername(username);
+            const isPasswordCorrect = await bcrypt.compare(password, user?.password || "");
+
+            if (!username || !password){
+                return res.status(400).json({message: 'All fields are required'})
+            }
+          
+            if (!user || !isPasswordCorrect){
+                return res.status(400).json({message: 'Invalid username or password'})
+            }
+
+            generateTokenAndSetCookie(user._id, res);
+            return res.status(200).json({
+                _id: user._id,
+                fullName: user.fullName,
+                username: user.username,
+            })
+            
+        }catch (err){
+            console.error(`Error in the login controller: ${err.message}`);
+            res.status(500).send('Server Error')
+        }
     }
-    catch (err){
-        console.error(`error in the logout controller: ${err.message}`);
-        res.status(500).send('Server Error')
+}
+
+
+
+export class LogoutAuthController{
+    static async logout(req: express.Request, res: express.Response){
+        try{
+            res.cookie('jwt', '', {maxAge: 0});
+            return res.status(200).json({message: 'Logout successful'})
+        }
+        catch (err){
+            console.error(`error in the logout controller: ${err.message}`);
+            res.status(500).send('Server Error')
+        }
+    
     }
 }

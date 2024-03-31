@@ -1,11 +1,11 @@
 import {Router} from 'express';
-import {createQuestion, getByTopic, getAll} from '../controllers/create.controllers';
+import {GetAllQuestionsController, CreateQuestionController, GetQuestionsByTopicController} from '../controllers/create.controllers';
 import {protectRoute} from '../middleware/protectRoute'
 
 const router = Router();
 
-router.get('/all', protectRoute, getAll);
-router.get('/topic', protectRoute, getByTopic);
-router.post('/create/:id', protectRoute, createQuestion);
+router.get('/all', protectRoute, GetAllQuestionsController.getAll);
+router.get('/topic', protectRoute, GetQuestionsByTopicController.getByTopic);
+router.post('/create/:id', protectRoute, CreateQuestionController.create);
 
 export default router;
