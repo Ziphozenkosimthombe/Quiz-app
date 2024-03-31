@@ -8,4 +8,6 @@ router.get('/all', protectRoute, GetAllQuestionsController.getAll);
 router.get('/topic', protectRoute, GetQuestionsByTopicController.getByTopic);
 router.post('/create/:id', protectRoute, CreateQuestionController.create);
 
-export default router;
+
+const createRoute = router;
+export default createRoute;

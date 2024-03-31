@@ -2,6 +2,7 @@ import { Response } from 'express';
 import jwt from 'jsonwebtoken';
 import { Types } from 'mongoose';
 
+
 const generateTokenAndSetCookie = (userId: Types.ObjectId, res: Response<any, Record<string, any>>) => {
     const token = jwt.sign({ userId }, process.env.JWT_SECRET, {
         expiresIn: "15d",

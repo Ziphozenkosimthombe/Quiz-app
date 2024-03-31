@@ -8,4 +8,6 @@ route.post('/signup', SignupAuthController.signup);
 route.post('/login', LoginAuthController.login);
 route.post('/logout', LogoutAuthController.logout);
 
-export default route;
+
+const authRoute = route;
+export default authRoute;

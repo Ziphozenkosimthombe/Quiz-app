@@ -8,5 +8,5 @@ const router = Router();
 router.get('/', GetAllUsersController.getAllUsers);
 router.delete('/:id', protectRoute, DeleteUserByIdController.deleteUser);
 
-
-export default router;
+const usersRoute = router;
+export default usersRoute;
