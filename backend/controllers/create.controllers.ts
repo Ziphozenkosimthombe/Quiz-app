@@ -5,10 +5,14 @@ export class GetAllQuestionsController{
     static async getAll(req: express.Request, res: express.Response){
         try {
             // Get all questions
-            const questions = await getAllQuestions();
+            const quiz = await getAllQuestions();
 
             // Send response
-            res.status(200).json(questions);
+            // res.status(200).json(questions);
+            res.status(200).render('getQuiz',{
+                quiz: quiz,
+                user: req.params.user
+            })
         } catch (error) {
             console.log(`Error on getting all questions: ${error}`);
             res.status(500).json({ message: 'Internal server error' });

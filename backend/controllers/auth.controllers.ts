@@ -41,11 +41,7 @@ export class SignupAuthController{
             if(newUser){
                 generateTokenAndSetCookie(newUser._id, res);
     
-                res.status(200).json({
-                    _id: newUser._id,
-                    fullName: newUser.fullName,
-                    username: newUser.username,
-                })
+                res.status(302).redirect('/api/auth/signup')
     
             }else{
                 return res.status(400).json({message: 'Invalid credentials'})
@@ -78,11 +74,9 @@ export class LoginAuthController{
             }
 
             generateTokenAndSetCookie(user._id, res);
-            return res.status(200).json({
-                _id: user._id,
-                fullName: user.fullName,
-                username: user.username,
-            })
+            res.status(302).redirect('/api/quiz/all')
+            
+            
             
         }catch (err){
             console.error(`Error in the login controller: ${err.message}`);
@@ -97,12 +91,24 @@ export class LogoutAuthController{
     static async logout(req: express.Request, res: express.Response){
         try{
             res.cookie('jwt', '', {maxAge: 0});
-            return res.status(200).json({message: 'Logout successful'})
+            return res.status(302).redirect('/')
         }
         catch (err){
             console.error(`error in the logout controller: ${err.message}`);
             res.status(500).send('Server Error')
         }
     
+    }
+}
+
+export class GetAuthLogin {
+    static getLogin(req: express.Request, res: express.Response) {
+        res.render('login');
+    }
+}
+
+export class GetAuthSignup {
+    static getSignup(req: express.Request, res: express.Response) {
+        res.render('signup');
     }
 }
