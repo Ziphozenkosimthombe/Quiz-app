@@ -1,0 +1,26 @@
+<%- include('partials/header') -%>
+<body>
+    <h1>Create Quiz</h1>
+    <form action="/api/quiz/create/<%= quiz._id %>" method="POST">
+        <label for="topic">Topic:</label>
+        <input type="text" id="topic" name="topic" required><br><br>
+    
+        <label for="questionText">Question Text:</label>
+        <input type="text" id="questionText" name="questionText" required><br><br>
+    
+        <label>Answers:</label><br>
+        <input type="text" name="answer0" required><br>
+        <input type="text" name="answer1" required><br>
+        <input type="text" name="answer2" required><br>
+        <input type="text" name="answer3" required><br>
+        <input type="text" name="answer4" required><br><br>
+    
+        <label for="correctAnswerIndex">Correct Answer Index (0-4):</label>
+        <input type="number" id="correctAnswerIndex" name="correctAnswerIndex" min="0" max="4" required><br><br>
+    
+        <input type="submit" value="Create Quiz">
+    </form>
+    
+    
+       
+</body>

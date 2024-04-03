@@ -25,3 +25,4 @@ export const getAllQuestions = () => Questions.find();
 export const getQuestionsWithSameTopic = (topic: string) => Questions.find({ topic });
 export const QuestionTextAlreadyExists = (questionText: string) => Questions.findOne({ questions: { $elemMatch: { questionText } }});
 export const create = (values: Record<string, any>) => new Questions(values).save().then((questions) => questions.toObject());
+export const getCreate = () => Questions.find().populate('creatorId', 'username').then((questions) => questions.map((question) => question.toObject()));

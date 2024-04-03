@@ -41,7 +41,7 @@ export class SignupAuthController{
             if(newUser){
                 generateTokenAndSetCookie(newUser._id, res);
     
-                res.status(302).redirect('/api/auth/signup')
+                res.status(302).redirect('/api/quiz/create')
     
             }else{
                 return res.status(400).json({message: 'Invalid credentials'})
@@ -74,7 +74,7 @@ export class LoginAuthController{
             }
 
             generateTokenAndSetCookie(user._id, res);
-            res.status(302).redirect('/api/quiz/all')
+            res.status(302).redirect('/api/quiz/create')
             
             
             
