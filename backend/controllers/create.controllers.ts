@@ -10,6 +10,7 @@ export class GetAllQuestionsController{
 
             // Send response
             // res.status(200).json(questions);
+            
             res.status(200).render('getQuiz',{
                 quiz: quiz,
                 user: req.params.user
@@ -86,24 +87,24 @@ export class GetCreateController{
     }
 }
 
-export class GetQuestionsByTopicController{
-    static async getByTopic(req: express.Request, res: express.Response){
-        try {
-            const { topic } = req.params;
+// export class GetQuestionsByTopicController{
+//     static async getByTopic(req: express.Request, res: express.Response){
+//         try {
+//             const { topic } = req.params;
 
-            // Get questions by topic
-            const quiz = await getQuestionsWithSameTopic(topic);
-
-            // Send response
-            res.status(302).render('getQuiz',{
-                quiz: quiz,
-                user: req.params.user
+//             // Get questions by topic
+//             const quiz = await getQuestionsWithSameTopic(topic);
             
-            });
-        } catch (error) {
-            console.log(`Error on getting questions by topic: ${error}`);
-            res.status(500).json({ message: 'Internal server error' });
-        }
-    }
-}
+//             // Send response
+//             res.status(302).render('getQuiz',{
+//                 quiz: quiz,
+//                 user: req.params.user
+            
+//             });
+//         } catch (error) {
+//             console.log(`Error on getting questions by topic: ${error}`);
+//             res.status(500).json({ message: 'Internal server error' });
+//         }
+//     }
+// }
 

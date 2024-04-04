@@ -1,25 +1,54 @@
 <%- include('partials/header') -%>
 <body>
-    <h1>Create Quiz</h1>
-    <form action="/api/quiz/create/<%= quiz._id %>" method="POST">
-        <label for="topic">Topic:</label>
-        <input type="text" id="topic" name="topic" required><br><br>
-    
-        <label for="questionText">Question Text:</label>
-        <input type="text" id="questionText" name="questionText" required><br><br>
-    
-        <label>Answers:</label><br>
-        <input type="text" name="answer0" required><br>
-        <input type="text" name="answer1" required><br>
-        <input type="text" name="answer2" required><br>
-        <input type="text" name="answer3" required><br>
-        <input type="text" name="answer4" required><br><br>
-    
-        <label for="correctAnswerIndex">Correct Answer Index (0-4):</label>
-        <input type="number" id="correctAnswerIndex" name="correctAnswerIndex" min="0" max="4" required><br><br>
-    
-        <input type="submit" value="Create Quiz">
-    </form>
+    <a href="/api/quiz/all"> take quiz</a>
+    <div class="flex flex-col items-center justify-center min-w-96 mx-auto ">
+        <div class=" p-6 rounded-lg shadow-md bg-gray-400 bg-clip-padding backdrop-filter backdrop-blur-lg bg-opacity-0">
+            <h1 class="flex justify-center text-transparent: uppercase text-2xl text-slate-800">Create Quiz</h1>
+            <form action="/api/quiz/create/<%= quiz._id %>" method="POST">
+                <div class="w-100 mt-10">
+                    <label for="topic" class="input input-bordered flex items-center gap-2">
+                    
+                        <input type="text" id="topic" name="topic" required placeholder="topic">
+                    </label>
+                </div>
+
+                <div class="w-80 mt-10">
+                    <label for="questionText" >
+                        <textarea name="questionText" id="questionText"  required placeholder="questionText" class="input input-bordered flex items-center gap-2 w-80"></textarea>
+                    </label>
+                
+                </div>
+                <div class="w-80 mt-10">
+                    <label class="input input-bordered flex items-center gap-2">
+                    
+                        <input type="text" name="answer0" required placeholder="answer0">
+                    
+                    </label>
+                
+                </div>
+                <div class="w-80 mt-10">
+                    <label class="input input-bordered flex items-center gap-2"> 
+                        <input type="text" name="answer1" required placeholder="answer1">
+                    </label>
+                </div>
+                <div class="w-80 mt-10">
+                    <label class="input input-bordered flex items-center gap-2"> 
+                        <input type="text" name="answer1" required placeholder="answer2">
+                    </label>
+                </div>
+
+                <div class="w-80 mt-10">
+                    <label for="correctAnswerIndex" class="input input-bordered flex items-center gap-2">
+                    
+                        <input type="number" id="correctAnswerIndex" name="correctAnswerIndex" min="0" max="2" required class="w-80" placeholder="correct answer index 0 to 2">
+                    </label>
+                
+                </div>
+            
+               <button type="submit" class="btn btn-neutral w-80 mt-10">submit</button>
+            </form>
+        </div>
+    </div>
     
     
        

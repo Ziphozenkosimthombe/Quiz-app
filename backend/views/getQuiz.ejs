@@ -1,10 +1,20 @@
 <%- include('partials/header') -%>
 <body>
     <h1>Hello Quiz</h1>
-    <form action="/api/quiz/topic" method="POST" id="formIput">
-        <input type="text" name="topic">
-        <button type="submit">submit</button>
+    <form action="/api/quiz/all" method="get">
+        <label for="lang">Topics</label>
+        <select name="topic" id="lang">
+            <% quiz.forEach(item => { %>
+                <option value="<%= item.topic %>"><%= item.topic %></option>
+            <% }); %>
+        </select>
+        
+        <input type="submit" value="Submit" />
+
     </form>
+  <% if (quiz.topic) { %>
+    <h2><%= quiz.topic %></h2>
+  <% } %>
     <% quiz.map(function(q, index) { %>
     <% if(q) { %>
         <div data-question-index="<%= index %>" class="question flex flex-col items-center justify-center min-w-96 mx-auto h-screen">
@@ -26,4 +36,5 @@
 
 
 <%- include('partials/quiz') -%>    
+
 </body>
