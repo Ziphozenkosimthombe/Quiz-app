@@ -11,3 +11,9 @@ export class HomeController{
         }
     }
 }
+
+export class GetHome{
+    static getHome(req: express.Request, res: express.Response){
+        res.render('home')
+    }
+}

@@ -1,11 +1,11 @@
 <%- include('partials/header') -%>
-<body>
-    <a href="/api/quiz/all"> take quiz</a>
-    <div class="flex flex-col items-center justify-center min-w-96 mx-auto ">
+<body class="bg-cover bg-center bg-no-repeat bg-fixed h-screen" style="background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('me.png'); height: 100%">
+    <button class="btn btn-neutral m-10"><a href="/api/quiz/all"> take quiz</a></button>
+    <div class=" flex flex-col items-center justify-center min-w-96 mx-auto">
         <div class=" p-6 rounded-lg shadow-md bg-gray-400 bg-clip-padding backdrop-filter backdrop-blur-lg bg-opacity-0">
             <h1 class="flex justify-center text-transparent: uppercase text-2xl text-slate-800">Create Quiz</h1>
             <form action="/api/quiz/create/<%= quiz._id %>" method="POST">
-                <div class="w-100 mt-10">
+                <div class="w-80 mt-10">
                     <label for="topic" class="input input-bordered flex items-center gap-2">
                     
                         <input type="text" id="topic" name="topic" required placeholder="topic">
@@ -33,7 +33,7 @@
                 </div>
                 <div class="w-80 mt-10">
                     <label class="input input-bordered flex items-center gap-2"> 
-                        <input type="text" name="answer1" required placeholder="answer2">
+                        <input type="text" name="answer2" required placeholder="answer2">
                     </label>
                 </div>
 
@@ -49,7 +49,4 @@
             </form>
         </div>
     </div>
-    
-    
-       
 </body>

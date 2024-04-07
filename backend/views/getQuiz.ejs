@@ -4,37 +4,34 @@
     <form action="/api/quiz/all" method="get">
         <label for="lang">Topics</label>
         <select name="topic" id="lang">
-            <% quiz.forEach(item => { %>
-                <option value="<%= item.topic %>"><%= item.topic %></option>
+            <option value="">All</option> <!-- Default option to show all questions -->
+            <% const uniqueTopics = Array.from(new Set(quiz.map(item => item.topic))); %>
+            <% uniqueTopics.forEach(topic => { %>
+                <option value="<%= topic %>" class="option"><%= topic %></option>
             <% }); %>
         </select>
-        
-        <input type="submit" value="Submit" />
-
     </form>
-  <% if (quiz.topic) { %>
-    <h2><%= quiz.topic %></h2>
-  <% } %>
-    <% quiz.map(function(q, index) { %>
-    <% if(q) { %>
-        <div data-question-index="<%= index %>" class="question flex flex-col items-center justify-center min-w-96 mx-auto h-screen">
-            <div class="p-6 rounded-lg shadow-md bg-gray-400 bg-clip-padding backdrop-filter backdrop-blur-lg bg-opacity-0">
-                <h2><%= q.questions[0].questionText %></h2>
-                <div class="w-80 mt-10">
-                    <% for (let i = 0; i < q.questions[0].answers.length; i++) { %>
-                        <div>
-                            <button class="btn w-80 mt-5" onclick="answerQuestion(this)" data-answer-index="<%= i %>" name="answers" type="button">
-                                <span><%= q.questions[0].answers[i] %></span>
-                            </button>
-                        </div>
-                    <% } %>
+
+    <div id="selectedTopic"></div>
+
+    <% quiz.forEach(function(q, index) { %>
+        <% if(q) { %>
+            <div data-question-index="<%= index %>" class="question flex flex-col items-center justify-center min-w-96 mx-auto h-screen" data-topic="<%= q.topic %>">
+                <div class="p-6 rounded-lg shadow-md bg-gray-400 bg-clip-padding backdrop-filter backdrop-blur-lg bg-opacity-0">
+                    <h2><%= q.questions[0].questionText %></h2>
+                    <div class="w-80 mt-10">
+                        <% for (let i = 0; i < q.questions[0].answers.length; i++) { %>
+                            <div>
+                                <!-- Attach answerQuestion function to span -->
+                                <span onclick="answerQuestion(this)" data-answer-index="<%= i %>" class="btn w-80 mt-5" name="answers" type="button">
+                                    <%= q.questions[0].answers[i] %>
+                                </span>
+                            </div>
+                        <% } %>
+                    </div>
                 </div>
             </div>
-        </div>
-    <% } %>
-<% }) %>
-
-
-<%- include('partials/quiz') -%>    
-
+        <% } %>
+    <% }) %>
+<%- include('partials/quiz') -%>
 </body>

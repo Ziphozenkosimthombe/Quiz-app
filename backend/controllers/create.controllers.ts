@@ -1,5 +1,5 @@
 import express from 'express';
-import {getAllQuestions, getQuestionsWithSameTopic, create, QuestionTextAlreadyExists, getCreate} from "../models/question.models";
+import {getAllQuestions, create, QuestionTextAlreadyExists, getCreate} from "../models/question.models";
 
 
 export class GetAllQuestionsController{
@@ -26,7 +26,7 @@ export class GetAllQuestionsController{
 export class CreateQuestionController {
     static async create(req: express.Request, res: express.Response) {
         try {
-            const { topic, questionText, answer0, answer1, answer2, answer3, answer4, correctAnswerIndex, creatorId } = req.body;
+            const { topic, questionText, answer0, answer1, answer2, correctAnswerIndex, creatorId } = req.body;
 
             console.log(req.body)
 
@@ -35,7 +35,7 @@ export class CreateQuestionController {
             //     return res.status(400).json({ message: 'All fields are required and correctAnswerIndex must be a number' });
             // }
 
-            if (!topic || !questionText || ![answer0, answer1, answer2, answer3, answer4] || !correctAnswerIndex) {
+            if (!topic || !questionText || ![answer0, answer1, answer2] || !correctAnswerIndex) {
                 return res.status(400).json({ message: 'All fields are required' });
             }
 
@@ -54,7 +54,7 @@ export class CreateQuestionController {
                 topic,
                 questions: [{
                     questionText,
-                    answers: [answer0, answer1, answer2, answer3, answer4],
+                    answers: [answer0, answer1, answer2],
                     correctAnswerIndex: parseInt(correctAnswerIndex)
                 }],
                 creatorId

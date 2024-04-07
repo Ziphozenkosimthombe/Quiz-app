@@ -12,19 +12,22 @@ export const protectRoute =  async (req: CustomRequest, res: express.Response, n
         const token = req.cookies.jwt;
         
         if(!token){
-            console.log(token);
-            return res.status(401).json({message: "Unauthorized - No token provided"});
+            
+            // return res.status(401).json({message: "Unauthorized - No token provided"});
+            res.redirect('/')
         }
 
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
         if (!decoded){
-            return res.status(401).json({message: "Unauthorized - Invalid token"});
+            // return res.status(401).json({message: "Unauthorized - Invalid token"});
+            res.redirect('/')
         }
         const user: any = await protectRouteUser(decoded.userId);
 
         if (!user){
-             return res.status(401).json({message: "Unauthorized - No user found"});
+            //  return res.status(401).json({message: "Unauthorized - No user found"});
+            res.redirect('/')
         }
         req.user = user;
 
